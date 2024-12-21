@@ -37,7 +37,7 @@ include "../koneksi.php";
         <tr>
             <td><?= $i++ ?></td>
             <td class="img-fluid img-thumbnail">
-                <img style="width: 70px; height:auto;" src="../images/<?= $data['gambar'] ?>">
+                <img style="width: 70px; height:auto;" src="../../assets/images/<?= $data['gambar'] ?>">
             </td>
             <td><?= $data['judul_produk'] ?></td>
             <td><?= $data['slug_produk'] ?></td>
