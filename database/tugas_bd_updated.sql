@@ -1,0 +1,2 @@
+INSERT INTO apatest
+VALUES (0, 20000);
