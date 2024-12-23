@@ -1,37 +1,17 @@
 <?php
 include "../koneksi.php";
 
-// Calculate Pendapatan bulan ini
-$current_month = date('Y-m');
-$query_bulan_ini = "
-    SELECT SUM(total_harga) AS pendapatan_bulan_ini 
-    FROM transaksi 
-    WHERE DATE_FORMAT(time, '%Y-%m') = '$current_month' AND status = 'Accepted'
-";
-$result_bulan_ini = mysqli_query($koneksi, $query_bulan_ini);
-$data_bulan_ini = mysqli_fetch_array($result_bulan_ini);
-$pendapatan_bulan_ini = $data_bulan_ini['pendapatan_bulan_ini'] ?? 0;
-
-// Calculate Pendapatan hari ini
-$current_date = date('Y-m-d');
-$query_hari_ini = "
-    SELECT SUM(total_harga) AS pendapatan_hari_ini 
-    FROM transaksi 
-    WHERE DATE(time) = '$current_date' AND status = 'Accepted'
-";
-$result_hari_ini = mysqli_query($koneksi, $query_hari_ini);
-$data_hari_ini = mysqli_fetch_array($result_hari_ini);
-$pendapatan_hari_ini = $data_hari_ini['pendapatan_hari_ini'] ?? 0;
+$get_user_id = $_SESSION['USER']['id'];
 
 // Calculate Pelanggan hari ini
-$query_pelanggan_hari_ini = "
-    SELECT COUNT(*) AS pelanggan_hari_ini 
+$query_tagihan = "
+    SELECT SUM(total_harga) as total_harga
     FROM transaksi 
-    WHERE DATE(time) = '$current_date' AND status = 'Accepted'
+    WHERE id_users = '$get_user_id' AND status = 'Waiting Payment'
 ";
-$result_pelanggan_hari_ini = mysqli_query($koneksi, $query_pelanggan_hari_ini);
-$data_pelanggan_hari_ini = mysqli_fetch_array($result_pelanggan_hari_ini);
-$pelanggan_hari_ini = $data_pelanggan_hari_ini['pelanggan_hari_ini'] ?? 0;
+$result_tagihan = mysqli_query($koneksi, $query_tagihan);
+$data_tagihan = mysqli_fetch_array($result_tagihan);
+$tagihan_total = $data_tagihan['total_harga'] ?? 0;
 ?>
 
 <table class="table">
@@ -49,54 +29,17 @@ $pelanggan_hari_ini = $data_pelanggan_hari_ini['pelanggan_hari_ini'] ?? 0;
 </table>
 
 <div class="row">
-
-    <!-- Earnings (Monthly) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Pendapatan bulan ini</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">RP : <?= number_format($pendapatan_bulan_ini, 2, ',', '.') ?></div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Earnings (Daily) Card Example -->
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Pendapatan hari ini</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">RP : <?= number_format($pendapatan_hari_ini, 2, ',', '.') ?></div>
-                    </div>
-                    <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Customers (Daily) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Pelanggan hari ini
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tagihan Pembayaran
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $pelanggan_hari_ini ?></div>
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">RP : <?= number_format($tagihan_total, 2, ',', '.') ?></div>
                             </div>
                         </div>
                     </div>
