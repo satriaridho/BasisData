@@ -8,15 +8,19 @@ if (isset($_POST['submit'])) {
     $bukti_tf = $_FILES['bukti_tf']['name'];
     $bukti_tf_tmp = $_FILES['bukti_tf']['tmp_name'];
 
+    // Define the upload directory
+    $upload_dir = "../../assets/images/";
+    $bukti_tf_path = $upload_dir . $bukti_tf;
+
     // Move the uploaded file to the desired directory
-    move_uploaded_file($bukti_tf_tmp, "../../assets/images" . $bukti_tf);
+    move_uploaded_file($bukti_tf_tmp, $bukti_tf_path);
 
     // Update the transaction with the payment details
-    $query = mysqli_query($koneksi, "UPDATE transaksi SET payment_type='$payment_type', bank='$bank', bukti_tf='../uploads/$bukti_tf', status='Payment Submitted' WHERE id_transaksi='$id_transaksi'") or die(mysqli_error($koneksi));
+    $query = mysqli_query($koneksi, "UPDATE transaksi SET payment_type='$payment_type', bank='$bank', bukti_tf='$bukti_tf', status='Payment Submitted' WHERE id_transaksi='$id_transaksi'") or die(mysqli_error($koneksi));
 
     if ($query) {
         echo "<script>alert('Bukti transfer berhasil diupload.');</script>";
-        echo "<script>location.href='transaksi.php'</script>";
+        echo "<script>location.href='?page=transaksi'</script>";
     } else {
         echo "<script>alert('Gagal mengupload bukti transfer.');</script>";
     }

@@ -47,7 +47,7 @@ include "../koneksi.php";
                     <td><?= is_null($data['payment_type']) ? 'Data belum ada' : htmlspecialchars($data['payment_type']) ?></td>
                     <td><?= date('d-m-Y H:i', strtotime($data['time'])) ?></td>
                     <td><?= is_null($data['bank']) ? 'Data belum ada' : htmlspecialchars($data['bank']) ?></td>
-                    <td><?= is_null($data['bukti_tf']) ? 'Data belum ada' : '<a href="' . htmlspecialchars($data['bukti_tf']) . '" target="_blank">Lihat Bukti</a>' ?></td>
+                    <td><?= is_null($data['bukti_tf']) ? 'Data belum ada' : '<a href="../../assets/images/' . htmlspecialchars($data['bukti_tf']) . '" target="_blank">Lihat Bukti</a>' ?></td>
                     <!-- Kolom Status dengan kelas warna -->
                     <td class="<?= $status_class ?> text-white"><?= htmlspecialchars($data['status']) ?></td>
                     <td><?= htmlspecialchars($data['username']) ?></td>

@@ -11,7 +11,7 @@ if (isset($_POST['submit'])) {
     $harga = $_POST['harga'];
     $kategori = $_POST['id_kategori']; 
 
-    move_uploaded_file($lokasi, "../images/" . $gambar);
+    move_uploaded_file($lokasi, "../../assets/images/" . $gambar);
 
     $query = mysqli_query($koneksi, "INSERT INTO produk(judul_produk, slug_produk, deskripsi, harga, gambar, id_kategori) VALUES ('$judul', '$slug_produk', '$deskripsi', '$harga', '$gambar', '$kategori')") or die (mysqli_error($koneksi));
 
